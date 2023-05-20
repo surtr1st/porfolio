@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
-import Grid from './Grid.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import Flex from './Flex.vue'
+
+const sections = ['intro', 'about', 'skills', 'workex', 'projects', 'contacts']
+const currentNavigate = ref<string>('')
 
 function handleScrollNext(e: WheelEvent) {
   // Prevent default scroll behavior
@@ -23,6 +25,25 @@ function handleScrollNext(e: WheelEvent) {
   })
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  const smoothScrollLinks = document.getElementsByClassName('section')
+
+  // Attach click event listener to each smooth scroll link
+  Array.from(smoothScrollLinks).forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const targetId = link.getAttribute('href')
+      const targetElement = document.querySelector(`${targetId}`)
+      currentNavigate.value = 'bg-indigo-600'
+
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    })
+  })
+})
+
 onMounted(() => {
   window.addEventListener('wheel', handleScrollNext, { passive: false })
 })
@@ -36,15 +57,14 @@ onUnmounted(() => {
     class="fixed right-6 top-[114px] rounded-[50px] z-50 bg-neutral-950 w-[40px] h-[648px] transition-all ease-out-better opacity-5 hover:right-7 hover:ease-in-better hover:opacity-30 hover:cursor-pointer"
   >
     <Flex class="justify-center items-center flex-col">
-      <div
-        v-for="section in 6"
+      <a
+        v-for="section in sections"
+        id="section"
         :key="section"
-        class="m-1 bg-indigo-600 w-[32px] h-[100px] rounded-[50px]"
-      >
-        <Grid class="place-items-center">
-          <h3>{{ section }}</h3>
-        </Grid>
-      </div>
+        :href="'#' + section"
+        class="m-1 w-[32px] h-[100px] rounded-[50px] bg-indigo-600"
+      />
     </Flex>
   </nav>
+  <slot />
 </template>

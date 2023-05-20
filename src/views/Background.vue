@@ -16,7 +16,7 @@ onMounted(() => {
     })
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
-    camera.position.setZ(100)
+    camera.position.setZ(120)
     renderer.render(scene, camera)
 
     // Particular
@@ -91,6 +91,6 @@ onMounted(() => {
 <template>
   <canvas
     ref="canvas"
-    class="fixed top-0 left-0"
+    class="fixed -z-50 top-0 left-0"
   ></canvas>
 </template>
