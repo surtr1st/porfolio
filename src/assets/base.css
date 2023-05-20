@@ -27,4 +27,7 @@ body {
 
 ::-webkit-scrollbar {
   display: none;
+  transition: all;
+  transition-delay: 100ms;
+  transition-timing-function: cubic-bezier(0.62, -0.01, 0.09, 0.96);
 }
