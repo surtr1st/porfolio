@@ -24,7 +24,7 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
               appear
               name="fade-up"
             >
-              <LightExtraHeading class="font-extralight italic mb-[11px]">AND</LightExtraHeading>
+              <LightExtraHeading class="font-bold mb-[11px]">AND</LightExtraHeading>
             </Transition>
           </Flex>
         </Flex>
@@ -32,7 +32,7 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
           appear
           name="fade-down"
         >
-          <LightExtraHeading class="font-semibold">WELCOME TO MY PORTFOLIO</LightExtraHeading>
+          <LightExtraHeading class="font-bold">WELCOME TO MY PORTFOLIO</LightExtraHeading>
         </Transition>
       </Flex>
     </Flex>

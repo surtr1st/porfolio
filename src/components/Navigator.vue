@@ -54,7 +54,7 @@ onUnmounted(() => {
 
 <template>
   <nav
-    class="fixed right-6 top-[114px] rounded-[50px] z-50 bg-neutral-950 w-[40px] h-[648px] transition-all ease-out-better opacity-5 hover:right-7 hover:ease-in-better hover:opacity-30 hover:cursor-pointer"
+    class="fixed right-6 top-[114px] rounded-[50px] z-[1000] bg-neutral-950 w-[40px] h-[648px] transition-all ease-out-better opacity-5 hover:right-7 hover:ease-in-better hover:opacity-70 hover:cursor-pointer"
   >
     <Flex class="justify-center items-center flex-col">
       <a
