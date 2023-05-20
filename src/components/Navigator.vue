@@ -3,12 +3,12 @@ import { onMounted, onUnmounted } from 'vue'
 import Grid from './Grid.vue'
 import Flex from './Flex.vue'
 
-function handleScrollNext(e: Event) {
+function handleScrollNext(e: WheelEvent) {
   // Prevent default scroll behavior
   e.preventDefault()
 
   // Determine the direction of scroll (up or down)
-  const delta = (e as WheelEvent).deltaY
+  const delta = e.deltaY
 
   // Calculate the height of each section
   const sectionHeight = window.innerHeight
@@ -24,7 +24,7 @@ function handleScrollNext(e: Event) {
 }
 
 onMounted(() => {
-  window.addEventListener('wheel', handleScrollNext)
+  window.addEventListener('wheel', handleScrollNext, { passive: false })
 })
 onUnmounted(() => {
   window.removeEventListener('wheel', handleScrollNext)

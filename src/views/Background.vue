@@ -19,44 +19,40 @@ onMounted(() => {
     camera.position.setZ(30)
     renderer.render(scene, camera)
 
-    // Torus
+    // Particular
+    const particleGeometry = new THREE.BufferGeometry()
+    const particleCount = 5000
+    const positions = new Float32Array(particleCount * 3)
 
-    const geometry = new THREE.TorusGeometry(10, 3, 16, 100)
-    const material = new THREE.MeshStandardMaterial({ color: 0x4338ca })
-    const torus = new THREE.Mesh(geometry, material)
+    // X-Y-Z
+    for (let i = 0; i < particleCount * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 1000
+    }
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 
-    scene.add(torus)
+    const pointsMaterial = new THREE.PointsMaterial({
+      size: 0.5,
+      transparent: true,
+      color: 0x686de0,
+    })
+    const particleMesh = new THREE.Points(particleGeometry, pointsMaterial)
+    scene.add(particleMesh)
 
     // Lights
-
     const pointLight = new THREE.PointLight(0xffffff)
     pointLight.position.set(5, 5, 5)
 
     const ambientLight = new THREE.AmbientLight(0xffffff)
     scene.add(pointLight, ambientLight)
 
-    function addStar() {
-      const geometry = new THREE.SphereGeometry(0.25, 24, 24)
-      const material = new THREE.MeshStandardMaterial({ color: 0xffffff })
-      const star = new THREE.Mesh(geometry, material)
-
-      const [x, y, z] = Array(3).map(() => THREE.MathUtils.randFloatSpread(100))
-
-      star.position.set(x, y, z)
-      scene.add(star)
-    }
-
-    Array(200).forEach(addStar)
-
     // Scroll Animation
     function moveCamera() {
       const t = document.body.getBoundingClientRect().top
-      torus.rotation.x += 0.05
-      torus.rotation.y += 0.075
-      torus.rotation.z += 0.05
 
-      camera.position.z = t * -0.01
-      camera.position.x = t * -0.0002
+      particleMesh.translateZ(0.5)
+
+      camera.position.z = t * -0.1
+      camera.position.x = t * -0.002
       camera.rotation.y = t * -0.0002
     }
 
@@ -64,15 +60,13 @@ onMounted(() => {
     moveCamera()
 
     // Animation Loop
-
     function animate() {
       requestAnimationFrame(animate)
 
-      torus.rotation.x += 0.01
-      torus.rotation.y += 0.005
-      torus.rotation.z += 0.01
+      particleMesh.rotation.x += 0.001
+      particleMesh.rotation.y += 0.0001
+      particleMesh.rotation.z += 0.0001
 
-      // controls.update();
       renderer.render(scene, camera)
     }
 
