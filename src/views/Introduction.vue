@@ -7,15 +7,14 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
 
 <template>
   <Page class="w-full">
-    <Flex class="h-full w-[1090px] justify-center items-center">
-      <Flex class="flex-col">
+    <Flex class="h-full w-[1090px] justify-center items-center bg-transparent">
+      <Flex class="flex-col bg-none">
         <Flex>
           <Transition
             appear
             name="fade-up"
           >
-            <SuperExtraHeading
-              class="font-extrabold bg-clip-text bg-[110% auto] bg-center text-transparent fancy hover:cursor-pointer"
+            <SuperExtraHeading class="font-extrabold fancy hover:cursor-pointer"
               >HELLO</SuperExtraHeading
             >
           </Transition>
@@ -32,7 +31,9 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
           appear
           name="fade-down"
         >
-          <LightExtraHeading class="font-bold">WELCOME TO MY PORTFOLIO</LightExtraHeading>
+          <LightExtraHeading class="bg-transparent font-bold"
+            >WELCOME TO MY PORTFOLIO</LightExtraHeading
+          >
         </Transition>
       </Flex>
     </Flex>

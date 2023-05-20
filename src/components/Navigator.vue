@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import Flex from './Flex.vue'
+import { state } from '../states'
 
 const sections = ['intro', 'about', 'skills', 'workex', 'projects', 'contacts']
-const currentNavigate = ref<string>('')
 
 function handleScrollNext(e: WheelEvent) {
   // Prevent default scroll behavior
@@ -26,18 +26,19 @@ function handleScrollNext(e: WheelEvent) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const smoothScrollLinks = document.getElementsByClassName('section')
+  const smoothScrollLinks = document.querySelectorAll('#section')
 
   // Attach click event listener to each smooth scroll link
-  Array.from(smoothScrollLinks).forEach(function (link) {
-    link.addEventListener('click', function (event) {
+  Array.from(smoothScrollLinks).forEach((link, index) => {
+    link.addEventListener('click', (event) => {
       event.preventDefault()
 
       const targetId = link.getAttribute('href')
       const targetElement = document.querySelector(`${targetId}`)
-      currentNavigate.value = 'bg-indigo-600'
 
       if (targetElement) {
+        const targetNavigate = smoothScrollLinks[index]
+        targetNavigate.classList.add('bg-indigo-600')
         targetElement.scrollIntoView({ behavior: 'smooth' })
       }
     })
@@ -62,7 +63,7 @@ onUnmounted(() => {
         id="section"
         :key="section"
         :href="'#' + section"
-        class="m-1 w-[32px] h-[100px] rounded-[50px] bg-indigo-600"
+        class="m-1 w-[32px] h-[100px] rounded-[50px] transition-all hover:bg-indigo-900"
       />
     </Flex>
   </nav>
