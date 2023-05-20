@@ -3,6 +3,6 @@ import Page from "../components/Page.vue";
 </script>
 
 <template>
-  <Page :background="500">
+  <Page :background="600">
   </Page>
 </template>
