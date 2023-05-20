@@ -6,8 +6,8 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
 </script>
 
 <template>
-  <Page class="m-auto w-[1445px]">
-    <Flex class="h-full justify-start items-center">
+  <Page class="w-full">
+    <Flex class="h-full w-[1090px] justify-center items-center">
       <Flex class="flex-col">
         <Flex>
           <SuperExtraHeading class="font-bold">HELLO</SuperExtraHeading>
