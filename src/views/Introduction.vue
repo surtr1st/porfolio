@@ -3,12 +3,13 @@ import Flex from '@/components/Flex.vue'
 import Page from '@/components/Page.vue'
 import SuperExtraHeading from '@/components/SuperExtraHeading.vue'
 import LightExtraHeading from '@/components/LightExtraHeading.vue'
+import Heading1 from '@/components/Heading1.vue'
 </script>
 
 <template>
-  <Page class="w-full">
-    <Flex class="h-full w-[1090px] justify-center items-center bg-transparent">
-      <Flex class="flex-col bg-none">
+  <Page class="w-full bg-none">
+    <Flex class="h-full w-[1090px] justify-center items-center">
+      <Flex class="flex-col">
         <Flex>
           <Transition
             appear
@@ -23,7 +24,7 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
               appear
               name="fade-up"
             >
-              <LightExtraHeading class="font-bold mb-[11px]">AND</LightExtraHeading>
+              <Heading1 class="font-semibold">AND</Heading1>
             </Transition>
           </Flex>
         </Flex>
@@ -31,9 +32,7 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
           appear
           name="fade-down"
         >
-          <LightExtraHeading class="bg-transparent font-bold"
-            >WELCOME TO MY PORTFOLIO</LightExtraHeading
-          >
+          <LightExtraHeading class="font-bold">WELCOME TO MY PORTFOLIO</LightExtraHeading>
         </Transition>
       </Flex>
     </Flex>
@@ -54,7 +53,7 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
 @keyframes slide-fade-down {
   from {
     opacity: 0;
-    transform: translateY(-75%);
+    transform: translateY(-50%);
   }
   to {
     opacity: 1;
@@ -77,14 +76,14 @@ import LightExtraHeading from '@/components/LightExtraHeading.vue'
 
 .fade-down-enter-active,
 .fade-down-leave-active {
-  animation: slide-fade-up 450ms;
+  animation: slide-fade-down 450ms;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.62, -0.01, 0.09, 0.96);
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  animation: slide-fade-up 350ms;
+.fade-down-enter-from,
+.fade-down-leave-to {
+  animation: slide-fade-down 350ms;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(1, 0.01, 0.26, 0.82);
 }
