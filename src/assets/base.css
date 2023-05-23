@@ -13,8 +13,13 @@
   font-weight: normal;
 }
 
-html {
+html, body, section {
+  block-size: 100%;
   scroll-behavior: smooth;
+}
+
+html {
+  scroll-snap-type: y mandatory;
 }
 
 body {

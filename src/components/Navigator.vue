@@ -45,12 +45,12 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 })
 
-onMounted(() => {
-  window.addEventListener('wheel', handleScrollNext, { passive: false })
-})
-onUnmounted(() => {
-  window.removeEventListener('wheel', handleScrollNext)
-})
+// onMounted(() => {
+//   window.addEventListener('wheel', handleScrollNext, { passive: false })
+// })
+// onUnmounted(() => {
+//   window.removeEventListener('wheel', handleScrollNext)
+// })
 </script>
 
 <template>
