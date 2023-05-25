@@ -20,10 +20,15 @@ import Flex from '@/components/Flex.vue'
 import Grid from '@/components/Grid.vue'
 import GridItem from '@/components/GridItem.vue'
 import Paragraph from '@/components/Paragraph.vue'
-import { ref } from 'vue'
+import ScrollReveal from 'scrollreveal'
+import { onMounted, ref } from 'vue'
 
 const buttonTitle = ref<string>('Programming Languages')
 const skillSections = ref<string>('pls')
+
+
+const sr = ScrollReveal({ delay: 10, reset: true })
+
 
 const langs = [
   {
@@ -94,6 +99,8 @@ function changeSection(title: string, next: string) {
   skillSections.value = title
   buttonTitle.value = next
 }
+
+onMounted(() => sr.reveal('#my-skills-overall'))
 </script>
 
 <template>
@@ -107,7 +114,8 @@ function changeSection(title: string, next: string) {
         :row-span="1"
         col-span="full"
       >
-        <Box class="flex justify-center items-center h-full">
+        <Box 
+          class="flex justify-center items-center h-full" >
           <Transition
             appear
             name="fade-up"
@@ -133,6 +141,8 @@ function changeSection(title: string, next: string) {
             <Box
               v-for="content in langs"
               class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+
+      id="my-skills-overall"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
