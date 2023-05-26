@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import Flex from './Flex.vue'
-import { state } from '../states'
 
 const sections = ['intro', 'about', 'skills', 'workex', 'projects', 'contacts']
 
@@ -45,12 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 })
 
-// onMounted(() => {
-//   window.addEventListener('wheel', handleScrollNext, { passive: false })
-// })
-// onUnmounted(() => {
-//   window.removeEventListener('wheel', handleScrollNext)
-// })
+onMounted(() => {
+  window.addEventListener('wheel', handleScrollNext, { passive: false })
+})
+onUnmounted(() => {
+  window.removeEventListener('wheel', handleScrollNext)
+})
 </script>
 
 <template>

@@ -17,7 +17,7 @@ html,
 body,
 section {
   block-size: 100%;
-  scroll-behavior: smooth;
+  
 }
 
 html {

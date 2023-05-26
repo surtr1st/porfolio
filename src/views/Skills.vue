@@ -7,34 +7,56 @@ import GridItem from '@/components/GridItem.vue'
 import Paragraph from '@/components/Paragraph.vue'
 import ScrollReveal from 'scrollreveal'
 import { onMounted, ref } from 'vue'
-import { langs, libs, dbs } from '@/data'
+import { langs, libs, dbs, SCROLL_REVEAL_DELAY } from '@/data'
 
-const buttonTitle = ref<string>('Programming Languages')
-const skillSections = ref<string>('pls')
+enum SkillSection {
+  PROG_LANGUAGES = 'Programming Languages',
+  FRAMEWORKS = 'Frameworks & Libraries',
+  DATABASES = 'Databases',
+}
+const RESET_TIME = 2500
+const buttonTitle = ref<string>(SkillSection.PROG_LANGUAGES)
+const skillsSection = ref<string>(SkillSection.PROG_LANGUAGES)
 const hoverBox = ref<HTMLDivElement | null>(null)
 const boxPositions = ref<NodeListOf<HTMLDivElement> | null>(null)
-const sr = ScrollReveal({ delay: 10, reset: true })
+const sr = ScrollReveal({ delay: SCROLL_REVEAL_DELAY, reset: true })
 
-function changeSection(title: string, next: string) {
-  skillSections.value = title
-  buttonTitle.value = next
+function changeSkillsSection(title: string) {
+  skillsSection.value = title
+  buttonTitle.value = title
+  resetHoverBox('800px')
 }
 
-function moveEvent() {
+let timeout = 0
+function moveHoveredBox() {
+  clearTimeout(timeout)
   if (!boxPositions.value) return
 
   boxPositions.value.forEach((box) => {
     if (box.matches(':hover')) {
       if (!hoverBox.value) return
-      hoverBox.value.classList.add('toggle')
-      hoverBox.value.style.top = `${box.offsetTop}px`
-      hoverBox.value.style.left = `${box.offsetLeft}px`
+      const offsetTop = `${box.offsetTop}px`,
+        offsetLeft = `${box.offsetLeft}px`
+      hoverBox.value.classList.remove('unshow')
+      hoverBox.value.classList.add('show')
+      hoverBox.value.style.top = offsetTop
+      hoverBox.value.style.left = offsetLeft
+      timeout = setTimeout(() => resetHoverBox(offsetLeft), RESET_TIME)
     }
   })
 }
 
+function resetHoverBox(pos: string) {
+  if (!hoverBox.value) return
+  hoverBox.value.classList.remove('show')
+  hoverBox.value.classList.add('unshow')
+  hoverBox.value.style.top = '80px'
+  hoverBox.value.style.left = pos
+}
+
 onMounted(() => {
   sr.reveal('#my-skills-overall')
+  sr.reveal('#skills-title')
 })
 </script>
 
@@ -49,7 +71,10 @@ onMounted(() => {
         :row-span="1"
         col-span="full"
       >
-        <div class="flex justify-center items-center h-full">
+        <div
+          id="skills-title"
+          class="flex justify-center items-center h-full"
+        >
           <Transition
             appear
             name="fade-up"
@@ -64,49 +89,54 @@ onMounted(() => {
         :row-span="3"
         col-span="full"
       >
+        <div
+          id="hover-box"
+          ref="hoverBox"
+          class="opacity-0 fancy-2 absolute left-[800px] w-[150px] h-[150px] rounded-xl p-2 border border-none transition-all ease-smoother duration-700 delay-100"
+        />
         <Transition
           mode="out-in"
           name="slide-up"
         >
           <Flex
-            v-if="skillSections === 'pls'"
+            v-if="skillsSection === SkillSection.PROG_LANGUAGES"
             class="justify-evenly items-center h-full"
           >
-            <div
-              id="hover-box"
-              ref="hoverBox"
-              class="invisible absolute left-[800px] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-sky-300 transition-all ease-smoother duration-700 delay-100"
-            ></div>
             <div
               v-for="content in langs"
               id="my-skills-overall"
               ref="boxPositions"
-              class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
-              @mouseenter="moveEvent"
+              class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+              :key="content.label"
+              @mouseenter="moveHoveredBox"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
             </div>
           </Flex>
           <Flex
-            v-else-if="skillSections === 'libs'"
+            v-else-if="skillsSection === SkillSection.FRAMEWORKS"
             class="justify-evenly items-center h-full"
           >
             <div
               v-for="content in libs"
-              class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+              ref="boxPositions"
+              class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+              @mouseenter="moveHoveredBox"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
             </div>
           </Flex>
           <Flex
-            v-else-if="skillSections === 'dbs'"
+            v-else-if="skillsSection === SkillSection.DATABASES"
             class="justify-evenly items-center h-full"
           >
             <div
               v-for="content in dbs"
-              class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+              ref="boxPositions"
+              class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+              @mouseenter="moveHoveredBox"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
@@ -122,8 +152,8 @@ onMounted(() => {
           <Transition mode="out-in">
             <button
               class="btn-29"
-              v-if="buttonTitle === 'Programming Languages'"
-              @click="changeSection('libs', 'Frameworks & Libraries')"
+              v-if="buttonTitle === SkillSection.PROG_LANGUAGES"
+              @click="changeSkillsSection(SkillSection.FRAMEWORKS)"
             >
               <span class="text-container">
                 <span class="text">{{ buttonTitle }}</span>
@@ -131,8 +161,8 @@ onMounted(() => {
             </button>
             <button
               class="btn-29"
-              v-else-if="buttonTitle === 'Frameworks & Libraries'"
-              @click="changeSection('dbs', 'Databases')"
+              v-else-if="buttonTitle === SkillSection.FRAMEWORKS"
+              @click="changeSkillsSection(SkillSection.DATABASES)"
             >
               <span class="text-container">
                 <span class="text">{{ buttonTitle }}</span>
@@ -140,8 +170,8 @@ onMounted(() => {
             </button>
             <button
               class="btn-29"
-              v-else-if="buttonTitle === 'Databases'"
-              @click="changeSection('pls', 'Programming Languages')"
+              v-else-if="buttonTitle === SkillSection.DATABASES"
+              @click="changeSkillsSection(SkillSection.PROG_LANGUAGES)"
             >
               <span class="text-container">
                 <span class="text">{{ buttonTitle }}</span>
@@ -160,20 +190,24 @@ onMounted(() => {
 }
 
 .logo:hover svg {
-  transform: translateY(-25%);
+  transform: translateY(-20%);
 }
 
 .logo p {
+  background: transparent;
   transition: transform 450ms cubic-bezier(0.62, -0.01, 0.09, 0.96);
 }
 
 .logo:hover p {
-  transform: scale(125%);
+  transform: scale(110%);
 }
 
-#hover-box.toggle {
-  visibility: visible;
+#hover-box.show {
+  opacity: 1;
   animation: slide-fade-down 1000ms;
+}
+#hover-box.unshow {
+  animation: slide-fade-down-out 1000ms;
 }
 
 .btn-29,
@@ -190,15 +224,13 @@ onMounted(() => {
   -webkit-appearance: button;
   background-color: transparent;
   background-image: none;
+  color: #000;
   cursor: pointer;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
-    Noto Color Emoji;
   font-size: 100%;
   font-weight: 900;
   line-height: 1.5;
   margin: 0;
-  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
   padding: 0;
   text-transform: uppercase;
 }
@@ -210,7 +242,7 @@ onMounted(() => {
 }
 .btn-29 svg {
   display: block;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 .btn-29 [hidden] {
   display: none;
@@ -228,9 +260,10 @@ onMounted(() => {
 }
 .btn-29 .text-container {
   display: block;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  /* width: -webkit-fit-content; */
+  /* width: -moz-fit-content; */
+  /* width: fit-content; */
+  width: 250px;
 }
 .btn-29 .text {
   display: block;
@@ -239,6 +272,7 @@ onMounted(() => {
   position: relative;
 }
 .btn-29:hover .text {
+  color: #715df2;
   -webkit-animation: move-right-alternate 0.3s cubic-bezier(0.62, -0.01, 0.09, 0.96) forwards;
   animation: move-right-alternate 0.3s cubic-bezier(0.62, -0.01, 0.09, 0.96) forwards;
 }
@@ -273,7 +307,7 @@ onMounted(() => {
 .btn-29:before {
   -webkit-animation: move-out 0.3s cubic-bezier(0.62, -0.01, 0.09, 0.96);
   animation: move-out 0.3s cubic-bezier(0.62, -0.01, 0.09, 0.96);
-  background: #4f46e5;
+  background: #715df2;
   -webkit-clip-path: polygon(
     0 0,
     calc(100% - var(--tilt)) 0,

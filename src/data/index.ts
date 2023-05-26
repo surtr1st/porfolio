@@ -13,6 +13,8 @@ import MSSQLLogo from '@/components/logo/MSSQLLogo.vue'
 import PostgreSQLLogo from '@/components/logo/PostgreSQLLogo.vue'
 import MongoDBLogo from '@/components/logo/MongoDBLogo.vue'
 
+const SCROLL_REVEAL_DELAY = 100
+
 const langs = [
   {
     logo: HTML5Logo,
@@ -78,4 +80,4 @@ const dbs = [
   },
 ]
 
-export { langs, libs, dbs }
+export { langs, libs, dbs, SCROLL_REVEAL_DELAY }
