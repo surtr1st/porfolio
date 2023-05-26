@@ -9,7 +9,7 @@ export default {
         smoother: 'cubic-bezier(.72,-0.01,.35,1)',
       },
       animation: {
-        'slide-fade-down': 'slide-fade-down 500ms ease-in-out both',
+        'slide-fade-down': 'slide-fade-down 500ms ease-in-out forwards',
       },
     },
   },

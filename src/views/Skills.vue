@@ -55,8 +55,8 @@ function resetHoverBox(pos: string) {
 }
 
 onMounted(() => {
-  sr.reveal('#my-skills-overall')
   sr.reveal('#skills-title')
+  sr.reveal('#skills-containter')
 })
 </script>
 
@@ -101,10 +101,10 @@ onMounted(() => {
           <Flex
             v-if="skillsSection === SkillSection.PROG_LANGUAGES"
             class="justify-evenly items-center h-full"
+            id="skills-container"
           >
             <div
               v-for="content in langs"
-              id="my-skills-overall"
               ref="boxPositions"
               class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
               :key="content.label"
@@ -208,6 +208,14 @@ onMounted(() => {
 }
 #hover-box.unshow {
   animation: slide-fade-down-out 1000ms;
+}
+
+.odd-anim-delay {
+  animation-delay: 1s;
+}
+
+.even-anim-delay {
+  animation-delay: 2s;
 }
 
 .btn-29,
