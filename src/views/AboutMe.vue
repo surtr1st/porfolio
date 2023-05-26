@@ -17,7 +17,10 @@ onMounted(() => sr.reveal('#about-me'))
 <template>
   <Page class="w-full bg-none">
     <Flex class="h-full w-[1090px] justify-center items-center">
-      <Flex id="about-me" class="flex-col justify-center items-center gap-4">
+      <Flex
+        id="about-me"
+        class="flex-col justify-center items-center gap-4"
+      >
         <Transition
           appear
           name="fade-up"

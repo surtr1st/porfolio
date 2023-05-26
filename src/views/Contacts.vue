@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import Page from "../components/Page.vue";
+import Page from '../components/Page.vue'
 </script>
 
 <template>
-  <Page>
-  </Page>
+  <Page> </Page>
 </template>

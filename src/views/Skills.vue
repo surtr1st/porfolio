@@ -1,110 +1,45 @@
 <script setup lang="ts">
 import Page from '@/components/Page.vue'
 import LightExtraHeading from '@/components/LightExtraHeading.vue'
-import HTML5Logo from '@/components/logo/HTML5Logo.vue'
-import CSS3Logo from '@/components/logo/CSS3Logo.vue'
-import JavaScriptLogo from '@/components/logo/JavaScriptLogo.vue'
-import TypeScriptLogo from '@/components/logo/TypeScriptLogo.vue'
-import JavaLogo from '@/components/logo/JavaLogo.vue'
-import RustLogo from '@/components/logo/RustLogo.vue'
-import SpringBootLogo from '@/components/logo/SpringBootLogo.vue'
-import NodeJsLogo from '@/components/logo/NodeJsLogo.vue'
-import VueLogo from '@/components/logo/VueLogo.vue'
-import ReactLogo from '@/components/logo/ReactLogo.vue'
-import MySQLLogo from '@/components/logo/MySQLLogo.vue'
-import MSSQLLogo from '@/components/logo/MSSQLLogo.vue'
-import PostgreSQLLogo from '@/components/logo/PostgreSQLLogo.vue'
-import MongoDBLogo from '@/components/logo/MongoDBLogo.vue'
-import Box from '@/components/Box.vue'
 import Flex from '@/components/Flex.vue'
 import Grid from '@/components/Grid.vue'
 import GridItem from '@/components/GridItem.vue'
 import Paragraph from '@/components/Paragraph.vue'
 import ScrollReveal from 'scrollreveal'
 import { onMounted, ref } from 'vue'
+import { langs, libs, dbs } from '@/data'
 
 const buttonTitle = ref<string>('Programming Languages')
 const skillSections = ref<string>('pls')
-
-
+const hoverBox = ref<HTMLDivElement | null>(null)
+const boxPositions = ref<NodeListOf<HTMLDivElement> | null>(null)
 const sr = ScrollReveal({ delay: 10, reset: true })
-
-
-const langs = [
-  {
-    logo: HTML5Logo,
-    label: 'HTML',
-  },
-  {
-    logo: CSS3Logo,
-    label: 'CSS',
-  },
-  {
-    logo: JavaScriptLogo,
-    label: 'JavaScript',
-  },
-  {
-    logo: TypeScriptLogo,
-    label: 'TypeScript',
-  },
-  {
-    logo: JavaLogo,
-    label: 'Java',
-  },
-  {
-    logo: RustLogo,
-    label: 'Rust',
-  },
-]
-
-const libs = [
-  {
-    logo: NodeJsLogo,
-    label: 'Node.js & Express.js',
-  },
-  {
-    logo: SpringBootLogo,
-    label: 'Spring Boot',
-  },
-  {
-    logo: ReactLogo,
-    label: 'React',
-  },
-  {
-    logo: VueLogo,
-    label: 'Vue',
-  },
-]
-
-const dbs = [
-  {
-    logo: MySQLLogo,
-    label: 'MySQL',
-  },
-  {
-    logo: MSSQLLogo,
-    label: 'Microsoft SQL Server',
-  },
-  {
-    logo: PostgreSQLLogo,
-    label: 'PostgreSQL',
-  },
-  {
-    logo: MongoDBLogo,
-    label: 'MongoDB',
-  },
-]
 
 function changeSection(title: string, next: string) {
   skillSections.value = title
   buttonTitle.value = next
 }
 
-onMounted(() => sr.reveal('#my-skills-overall'))
+function moveEvent() {
+  if (!boxPositions.value) return
+
+  boxPositions.value.forEach((box) => {
+    if (box.matches(':hover')) {
+      if (!hoverBox.value) return
+      hoverBox.value.classList.add('toggle')
+      hoverBox.value.style.top = `${box.offsetTop}px`
+      hoverBox.value.style.left = `${box.offsetLeft}px`
+    }
+  })
+}
+
+onMounted(() => {
+  sr.reveal('#my-skills-overall')
+})
 </script>
 
 <template>
-  <Page class="w-full bg-none">
+  <Page class="w-full bg-none relative">
     <Grid
       :rows="6"
       :cols="1"
@@ -114,8 +49,7 @@ onMounted(() => sr.reveal('#my-skills-overall'))
         :row-span="1"
         col-span="full"
       >
-        <Box 
-          class="flex justify-center items-center h-full" >
+        <div class="flex justify-center items-center h-full">
           <Transition
             appear
             name="fade-up"
@@ -124,7 +58,7 @@ onMounted(() => sr.reveal('#my-skills-overall'))
               >MY SKILLS OVERALL</LightExtraHeading
             >
           </Transition>
-        </Box>
+        </div>
       </GridItem>
       <GridItem
         :row-span="3"
@@ -138,39 +72,45 @@ onMounted(() => sr.reveal('#my-skills-overall'))
             v-if="skillSections === 'pls'"
             class="justify-evenly items-center h-full"
           >
-            <Box
+            <div
+              id="hover-box"
+              ref="hoverBox"
+              class="invisible absolute left-[800px] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-sky-300 transition-all ease-smoother duration-700 delay-100"
+            ></div>
+            <div
               v-for="content in langs"
+              id="my-skills-overall"
+              ref="boxPositions"
               class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
-
-      id="my-skills-overall"
+              @mouseenter="moveEvent"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
-            </Box>
+            </div>
           </Flex>
           <Flex
             v-else-if="skillSections === 'libs'"
             class="justify-evenly items-center h-full"
           >
-            <Box
+            <div
               v-for="content in libs"
               class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
-            </Box>
+            </div>
           </Flex>
           <Flex
             v-else-if="skillSections === 'dbs'"
             class="justify-evenly items-center h-full"
           >
-            <Box
+            <div
               v-for="content in dbs"
               class="logo text-center grayscale w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
-            </Box>
+            </div>
           </Flex>
         </Transition>
       </GridItem>
@@ -229,6 +169,11 @@ onMounted(() => sr.reveal('#my-skills-overall'))
 
 .logo:hover p {
   transform: scale(125%);
+}
+
+#hover-box.toggle {
+  visibility: visible;
+  animation: slide-fade-down 1000ms;
 }
 
 .btn-29,

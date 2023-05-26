@@ -6,7 +6,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js'
 
-			import { AnaglyphEffect } from 'three/addons/effects/AnaglyphEffect.js';
+import { AnaglyphEffect } from 'three/addons/effects/AnaglyphEffect.js'
 import { state } from '@/states'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
@@ -103,7 +103,7 @@ onMounted(() => {
     const afterimagePass = new AfterimagePass()
     afterimagePass.uniforms['damp'].value = 0.7
     composer.addPass(afterimagePass)
-    const effect = new AnaglyphEffect( renderer );
+    const effect = new AnaglyphEffect(renderer)
 
     // Animation Loop
     function animate() {
