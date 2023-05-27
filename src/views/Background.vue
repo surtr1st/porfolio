@@ -105,6 +105,12 @@ onMounted(() => {
     composer.addPass(afterimagePass)
     const effect = new AnaglyphEffect(renderer)
 
+  window.addEventListener('resize', () => {
+    const width = window.innerWidth
+    const height = window.innerHeight
+    renderer.setSize(width, height)
+  })
+
     // Animation Loop
     function animate() {
       requestAnimationFrame(animate)

@@ -6,12 +6,12 @@ import Heading1 from '@/components/Heading1.vue'
 import Paragraph from '@/components/Paragraph.vue'
 import ScrollReveal from 'scrollreveal'
 import { onMounted } from 'vue'
-import { SCROLL_REVEAL_DELAY } from '@/data'
+import { SCROLL_REVEAL_DELAY } from '@/globals'
 
 const about = `
 Currently, I am an independent software developer specializing in both front-end and back-end development, although my expertise lies primarily in back-end development. I adore innovative work and am passionate about developing software that could possibly simplifies processes people's workflow. I am also a continuous learner who is naturally curious, learning many new things is like my hobby.
 `
-const sr = ScrollReveal({ delay: SCROLL_REVEAL_DELAY, reset: true })
+const sr = ScrollReveal({ delay: SCROLL_REVEAL_DELAY, reset: true, mobile: false })
 onMounted(() => sr.reveal('#about-me'))
 </script>
 

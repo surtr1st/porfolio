@@ -7,7 +7,7 @@ import Heading1 from '@/components/Heading1.vue'
 </script>
 
 <template>
-  <Page class="w-full bg-none">
+  <Page class="w-screen bg-none">
     <Flex class="h-full w-[1090px] justify-center items-center">
       <Flex class="flex-col">
         <Flex>

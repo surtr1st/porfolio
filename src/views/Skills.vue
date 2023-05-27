@@ -7,61 +7,31 @@ import GridItem from '@/components/GridItem.vue'
 import Paragraph from '@/components/Paragraph.vue'
 import ScrollReveal from 'scrollreveal'
 import { onMounted, ref } from 'vue'
-import { langs, libs, dbs, SCROLL_REVEAL_DELAY } from '@/data'
+import { langs, libs, dbs, SCROLL_REVEAL_DELAY } from '@/globals'
 
 enum SkillSection {
   PROG_LANGUAGES = 'Programming Languages',
   FRAMEWORKS = 'Frameworks & Libraries',
   DATABASES = 'Databases',
 }
-const RESET_TIME = 2500
 const buttonTitle = ref<string>(SkillSection.PROG_LANGUAGES)
 const skillsSection = ref<string>(SkillSection.PROG_LANGUAGES)
-const hoverBox = ref<HTMLDivElement | null>(null)
 const boxPositions = ref<NodeListOf<HTMLDivElement> | null>(null)
-const sr = ScrollReveal({ delay: SCROLL_REVEAL_DELAY, reset: true })
+const sr = ScrollReveal({ delay: SCROLL_REVEAL_DELAY, reset: true, mobile: false })
 
 function changeSkillsSection(title: string) {
   skillsSection.value = title
   buttonTitle.value = title
-  resetHoverBox('800px')
-}
-
-let timeout = 0
-function moveHoveredBox() {
-  clearTimeout(timeout)
-  if (!boxPositions.value) return
-
-  boxPositions.value.forEach((box) => {
-    if (box.matches(':hover')) {
-      if (!hoverBox.value) return
-      const offsetTop = `${box.offsetTop}px`,
-        offsetLeft = `${box.offsetLeft}px`
-      hoverBox.value.classList.remove('unshow')
-      hoverBox.value.classList.add('show')
-      hoverBox.value.style.top = offsetTop
-      hoverBox.value.style.left = offsetLeft
-      timeout = setTimeout(() => resetHoverBox(offsetLeft), RESET_TIME)
-    }
-  })
-}
-
-function resetHoverBox(pos: string) {
-  if (!hoverBox.value) return
-  hoverBox.value.classList.remove('show')
-  hoverBox.value.classList.add('unshow')
-  hoverBox.value.style.top = '80px'
-  hoverBox.value.style.left = pos
 }
 
 onMounted(() => {
   sr.reveal('#skills-title')
-  sr.reveal('#skills-containter')
+  sr.reveal('#skills-container')
 })
 </script>
 
 <template>
-  <Page class="w-full bg-none relative">
+  <Page class="w-screen bg-none relative">
     <Grid
       :rows="6"
       :cols="1"
@@ -88,12 +58,8 @@ onMounted(() => {
       <GridItem
         :row-span="3"
         col-span="full"
+        id="skills-container"
       >
-        <div
-          id="hover-box"
-          ref="hoverBox"
-          class="opacity-0 fancy-2 absolute left-[800px] w-[150px] h-[150px] rounded-xl p-2 border border-none transition-all ease-smoother duration-700 delay-100"
-        />
         <Transition
           mode="out-in"
           name="slide-up"
@@ -101,14 +67,12 @@ onMounted(() => {
           <Flex
             v-if="skillsSection === SkillSection.PROG_LANGUAGES"
             class="justify-evenly items-center h-full"
-            id="skills-container"
           >
             <div
               v-for="content in langs"
               ref="boxPositions"
-              class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
+              class="logo text-center transition-all grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none hover:cursor-pointer hover:grayscale-0"
               :key="content.label"
-              @mouseenter="moveHoveredBox"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
@@ -122,7 +86,6 @@ onMounted(() => {
               v-for="content in libs"
               ref="boxPositions"
               class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
-              @mouseenter="moveHoveredBox"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
@@ -136,7 +99,6 @@ onMounted(() => {
               v-for="content in dbs"
               ref="boxPositions"
               class="logo text-center grayscale-[50%] w-[150px] h-[150px] rounded-xl p-2 border border-none bg-none transition-all hover:cursor-pointer hover:grayscale-0"
-              @mouseenter="moveHoveredBox"
             >
               <component :is="content.logo"></component>
               <Paragraph class="mt-1">{{ content.label }}</Paragraph>
@@ -200,22 +162,6 @@ onMounted(() => {
 
 .logo:hover p {
   transform: scale(110%);
-}
-
-#hover-box.show {
-  opacity: 1;
-  animation: slide-fade-down 1000ms;
-}
-#hover-box.unshow {
-  animation: slide-fade-down-out 1000ms;
-}
-
-.odd-anim-delay {
-  animation-delay: 1s;
-}
-
-.even-anim-delay {
-  animation-delay: 2s;
 }
 
 .btn-29,
