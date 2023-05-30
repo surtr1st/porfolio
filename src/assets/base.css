@@ -1,3 +1,6 @@
+@charset "utf-8";
+@import url('title.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,16 +13,37 @@
   font-weight: normal;
 }
 
+html,
+body,
+section {
+  block-size: 100%;
+  
+}
+
+html {
+  scroll-snap-type: y mandatory;
+}
+
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  width: 100%;
+  color: white;
+  /* background: rgb(23,23,23); */
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  /* font-family: Inter, -apple-system, BlinkMacSystemFont, 'Poppins', 'Segoe UI', Roboto, Oxygen, Ubuntu, */
+  /*   Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  transition: all;
+  transition-delay: 100ms;
+  transition-timing-function: cubic-bezier(0.62, -0.01, 0.09, 0.96);
+  touch-action: none;
 }

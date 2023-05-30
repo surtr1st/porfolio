@@ -1,0 +1,5 @@
+<template>
+  <p class="break-words">
+    <slot />
+  </p>
+</template>
